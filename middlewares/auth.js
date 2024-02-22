@@ -7,12 +7,10 @@ const isLoggedIn = async (req, res, next) => {
 
     try {
         const decodedToken = await verify(authToken);
-        console.log(decodedToken)
 
         if (!decodedToken) return res.status(403).send("Not authorized");
 
         req.user = decodedToken;
-        console.log(decodedToken)
         next();
     } catch (err) {
         console.error(err)

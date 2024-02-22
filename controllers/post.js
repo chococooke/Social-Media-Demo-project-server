@@ -10,7 +10,6 @@ const getPost = async (req, res) => {
 
     try {
         const post = await Post.findById(postId);
-        console.log(post)
 
         if (!post) return res.status(404).send("Post not found");
 
@@ -48,8 +47,7 @@ const createPost = async (req, res) => {
 const like = async (req, res) => {
     const { postId } = req.params;
     const liker = req.user.id;
-
-    console.log(liker)
+    
     if (!isValidObjectId(postId)) return res.send("Invalid Request");
 
     try {

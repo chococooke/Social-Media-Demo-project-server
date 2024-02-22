@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const { isValidObjectId } = require("mongoose");
+const { hashSync, compareSync } = require("bcrypt")
 
 const getUserProfile = async (req, res) => {
     const { userId } = req.params;
@@ -72,15 +73,54 @@ const unfollow = async (req, res) => {
 }
 
 
+// Verifying password before attempting 
+// important changes in account e.g pass
+const checkOldPassword = async (req, res) => {
+    const { password } = req.body;
+    const userId = req.user._id;
+
+    try {
+        const user = await User.findById(userId);
+
+        const match = await compareSync(password, user.password)
+
+        if (!match) return res.send("wrong password");
+
+        res.send("Success");
+    } catch (err) {
+        console.error(err);
+        return res.send("Internal Server Error");
+    }
+}
+
+const updatePassword = async (req, res) => {
+    const userId = req.user._id;
+    const { passwd } = req.body;
+
+    try {
+        const user = await User.findById(userId);
+
+        if (user._id != userId) return res.send("Not authorized");
+
+        user.password = passwd;
+
+        await user.save();
+
+        res.send(user);
+    } catch (err) {
+        console.log(err)
+        return res.status(500).send("Internal Server Error");
+    }
+}
+
+
 // account management
 const deleteAccount = async (req, res) => {
-    const { userId } = req.params;
+    const userId = req.user._id;
 
     if (!isValidObjectId(userId)) return res.send("Bad request");
 
     // check account Ownership 
-    if (userId != req.user.id) return res.send("Not authorized");
-
     try {
         await User.findByIdAndDelete(userId);
         res.send("Success");
@@ -96,4 +136,6 @@ module.exports = {
     follow,
     unfollow,
     deleteAccount,
+    updatePassword,
+    checkOldPassword
 }

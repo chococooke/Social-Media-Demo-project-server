@@ -1,0 +1,48 @@
+# Dependency directories
+node_modules/
+
+# Environment configuration files
+.env
+
+# Log files
+*.log
+*.log.*
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Build directory
+dist/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.idea/
+.vscode/
+.history/
+*.sublime-*
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~
+
+# Debug log from npm
+npm-debug.log*
+
+# Yarn log files
+yarn-debug.log*
+yarn-error.log*
+
+# Cache directories
+.cache/
+
+# Archive files
+*.tar.gz
+*.zip
+
+# Build directory
+build/

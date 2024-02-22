@@ -30,16 +30,16 @@ const p_login = async (req, res) => {
     if (!uname || !passwd) return res.send("Username and Password are required");
 
     try {
-        const foundUser = User.findOne({ username: uname });
+        const foundUser = await User.findOne({ username: uname });
 
         if (!foundUser) return res.send("Bad credentials");
 
         const { _id, username, name, password } = foundUser;
-        const match = compareSync(passwd, password);
+        const match = await compareSync(passwd, password);
 
         if (!match) return res.send("Bad credentials");
 
-        const token = sign(_id, name, username);
+        const token = await sign({ _id, name, username });
 
         res.cookie('jwt', token);
         res.status(200).send('Logged In');

@@ -17,11 +17,6 @@ app.use("/auth", authRouter)
 app.use("/user", userRouter)
 app.use("/post", postRouter)
 
-app.get("/", (req, res) => {
-    if (req.headers.authorization)
-        res.send("Home page");
-});
-
 server.listen(5000, () => {
-    console.log("Server listening on port 5000");
+    console.log("[+] SERVER LISTENING ON 3000");
 })
